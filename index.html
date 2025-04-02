@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoKen000 voz</title>
+</head>
+<body>
+    <h1>¡Bienvenido a "CoKen" version 000, AUDIO :) atte CoKenDev !</h1>
+    <p>Pulsa botones con letras de la "a" a la "z" o "ñ" para escuchar sus palabras, presiona "1" para concatenar y hablar todo, o "0" para borrar todo.</p>
+    <p> a-Amor, b-Buenos dias, c-Comer, d-Dormir, e-Estoy </p>
+    <p> f-Feliz, g-Gracias, h-Hola, i-ir al baño, j-Jugar </p>
+    <p> k-Que te valla bien, l-Que, m-Madre, n-No, ñ-Triste </p>
+    <p> o-Trabajar, p-Por favor, q-Quiero, r-Padre, s-Si </p>
+    <p> t-Contento, u-Cansado, v-Beber, w-Dolor, x-Hijoa </p>
+    <p> y-Hermanoa, z-Ayuda </p>
+
+    <div id="contenedor"></div>
+   
+    <script>
+        const letrasYPensajes = {
+            "a": "Amor",
+            "b": "Buenos Dias",
+            "c": "Comer",
+            "d": "Dormir",
+            "e": "Estoy",
+            "f": "Feliz",
+            "g": "Gracias",
+            "h": "Hola",
+            "i": "ir al baño",
+            "j": "Jugar",
+            "k": "Que te valla bien",
+            "l": "Que",
+            "m": "Madre",
+            "n": "No",
+            "ñ": "Triste",
+            "o": "Trabajar",
+            "p": "Por favor",
+            "q": "quiero",
+            "r": "Padre",
+            "s": "si",
+            "t": "Contento",
+            "u": "Cansado",
+            "v": "Beber",
+            "w": "Dolor",
+            "x": "Hijoa",
+            "y": "Hermanoa",
+            "z": "Ayuda",
+            "1": "Concatenar",
+            "0": "Borrar"
+        };
+
+        let palabrasConcatenadas = "";
+        const contenedor = document.getElementById("contenedor");
+
+        // Crear botones, Gracias Co.. MVP
+        Object.keys(letrasYPensajes).forEach(letra => {
+            const boton = document.createElement("button");
+            boton.textContent = letra;
+            boton.style.width = "50px";
+            boton.style.height = "50px";
+            boton.style.margin = "5px";
+            boton.style.fontSize = "16px";
+            boton.addEventListener("click", () => {
+                if (letra === "0") {
+                    palabrasConcatenadas = "";
+                    console.log("Texto acumulado borrado.");
+                    window.speechSynthesis.cancel();
+                } else if (letra === "1") {
+                    if (palabrasConcatenadas.trim()) {
+                        const speech = new SpeechSynthesisUtterance(palabrasConcatenadas.trim());
+                        speech.lang = "es-ES";
+                        window.speechSynthesis.cancel();
+                        window.speechSynthesis.speak(speech);
+                    } else {
+                        console.log("No hay palabras acumuladas para hablar.");
+                    }
+                } else {
+                    const palabra = letrasYPensajes[letra];
+                    palabrasConcatenadas += palabra + " ";
+                    const speech = new SpeechSynthesisUtterance(palabra);
+                    speech.lang = "es-ES";
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(speech);
+                }
+            });
+            contenedor.appendChild(boton);
+        });
+    </script>
+</body>
+</html>
